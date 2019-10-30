@@ -18,6 +18,7 @@
     "@vue/cli-service": "^4.0.0",
     "@vue/test-utils": "^1.0.0-beta.29",
     "babel-eslint": "^10.0.3",
+    "babel-jest": "^24.9.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "jest": "^24.9.0",
@@ -50,7 +51,8 @@
       "vue"
     ],
     "transform": {
-      ".*\\(vue)$": "vue-jest"
+      ".*\\(vue)$": "vue-jest",
+      "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
     }
   },
   "browserslist": [
