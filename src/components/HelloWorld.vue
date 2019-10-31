@@ -11,7 +11,7 @@ export default {
   props: {
     msg: {
       type: String,
-      default: 'Hello Wrold'
+      default: 'Hello World'
     },
     desc: {
       type: String,
