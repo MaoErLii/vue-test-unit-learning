@@ -1,15 +1,20 @@
 var path = require('path')
 var webpack = require('webpack')
+var { VueLoaderPlugin } = require('vue-loader')
+var HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
-  entry: './src/main.js',
+  mode: process.env.NODE_ENV === 'production'? 'production' : 'development',
+  entry: {
+    index: path.resolve(__dirname, './src/main.js')
+  },
   output: {
+    filename: '[name].[hash].js',
     path: path.resolve(__dirname, './dist'),
-    publicPath: '/dist/',
-    filename: 'build.js'
+    publicPath: '/'
   },
   module: {
-    rles:  [
+    rules:  [
       {
         test: /\.vue$/,
         loader: 'vue-loader',
@@ -20,6 +25,14 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
+        exclude: /node_modules/
+      },
+      {
+        test: /\.css$/,
+        use: [
+          'vue-style-loader',
+          'css-loader'
+        ],
         exclude: /node_modules/
       },
       {
@@ -44,7 +57,16 @@ module.exports = {
   performance: {
     hints: false
   },
-  devtool: '#eval-source-map'
+  devtool: '#eval-source-map',
+  plugins: [
+    new VueLoaderPlugin(),
+    new HtmlWebpackPlugin({
+      title: '测试',
+      filename: 'index.html',
+      template: path.resolve(__dirname, './public/index.ejs'),
+      favicon: path.resolve(__dirname, './public/favicon.ico')
+    })
+  ]
 }
 
 if(process.env.NODE_ENV === 'production') {
@@ -54,12 +76,6 @@ if(process.env.NODE_ENV === 'production') {
       new webpack.DefinePlugin({
         'process.env': {
           NODE_ENV: 'production'
-        }
-      }),
-      new webpack.optimize.UglifyJsPlugin({
-        sourceMap: true,
-        compress: {
-          warnings: false
         }
       }),
       new webpack.LoaderOptionsPlugin({
