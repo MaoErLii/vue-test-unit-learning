@@ -2,7 +2,7 @@
   <div id="app">
     <HelloWorld
       msg="哇偶"
-      desc="aqua 卡哇伊!!!"
+      desc="打的不错"
     />
     <List
       :list="list"
